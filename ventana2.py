@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk
-import requests, json
-from tkinter import font
+import requests
+import datetime
 class app:
     
 
@@ -53,7 +53,7 @@ class app:
         self.labeltempmax.place(x = 320 , y = 150)
         self.labelhumedad = Label(self.framed, text= f"Humedad: {self.humedad}%", font=("Bahnschrift Condensed",30,"bold"), bg = "gray" )
         self.labelhumedad.place(x = 320 , y = 200)
-        
+        #PANEL IZQUIERDO
         self.framei = Frame()
         self.framei.pack()
         self.framei.config(width = 600, height = 300)
@@ -62,8 +62,11 @@ class app:
         img1 = PhotoImage(file = "reloj.png")
         self.labeli = Label(self.framei, image = img1)
         self.labeli.place(x = 0 , y = 0)
-        self.labeltiempo = Label(self.framei, text="TIEMPO Y DÍA SE MUESTRA ACÁ")
-        self.labeltiempo.place(x = 360 , y = 135)
+        fecha = datetime.datetime.now()
+        self.labelfecha = Label(self.framei, text=f"{fecha.day}/{fecha.month}/{fecha.year}", font=("Bahnschrift Condensed",40,"bold"), bg = "yellow")
+        self.labelfecha.place(x = 360 , y = 60)
+        self.labelhora = Label(self.framei, text=f"{fecha.hour}:{fecha.minute}", font=("Digital dream fat",40,"bold"), bg = "yellow")
+        self.labelhora.place(x = 360 , y = 180)
         #panel inferior
         self.framein = Frame()
         self.framein.pack()
@@ -109,7 +112,7 @@ class app:
         #conversor a fahrenheit/celsius
         self.labelc = Label(self.framein, text="CONVERTIR TEMPERATURA A:")
         self.labelc.place(x = 800 , y = 60)  
-        celsius = Button(self.framein,text="CELSIUS",bg="white",height = 5, width = 30).place(x = 670 , y = 100)       
+        celsius = Button(self.framein,text="KELVIN",bg="white",height = 5, width = 30).place(x = 670 , y = 100)       
         fahrenheit = Button(self.framein,text="FAHRENHEIT",bg="white",height = 5, width = 30).place(x = 900 , y = 100)    
         self.app.mainloop()
     
