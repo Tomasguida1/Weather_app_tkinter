@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter import ttk
 import requests
 import datetime
+import pytz
+from pytz import timezone
+from tkinter import messagebox
 class app:
     
 
@@ -66,7 +69,7 @@ class app:
         self.labelfecha = Label(self.framei, text=f"{fecha.day}/{fecha.month}/{fecha.year}", font=("Bahnschrift Condensed",40,"bold"), bg = "yellow")
         self.labelfecha.place(x = 360 , y = 60)
         self.labelhora = Label(self.framei, text=f"{fecha.hour}:{fecha.minute}", font=("Digital dream fat",40,"bold"), bg = "yellow")
-        self.labelhora.place(x = 360 , y = 180)
+        self.labelhora.place(x = 340 , y = 180)
         #panel inferior
         self.framein = Frame()
         self.framein.pack()
@@ -74,48 +77,75 @@ class app:
         self.framein.config(bg="red")
         self.framein.place(x = 0, y = 400)
         #HORARIO EUROPA
-        self.labelhoraeu = Label(self.framein, text="HORARIOS EUROPA")
-        self.labelhoraeu.place(x = 80 , y = 60)  
-        self.labelhoraeu1 = Label(self.framein, text="00:00")
+        self.labelhoraeu = Label(self.framein, text="HORARIOS EUROPA",bg = "grey")
+        self.labelhoraeu.place(x = 80 , y = 60) 
+        ahora = datetime.datetime.now(timezone("UTC"))
+        horalon = ahora.astimezone(timezone("Europe/London"))
+        self.labelhoraeu1 = Label(self.framein, text=f"Londres: {horalon.hour}:{horalon.minute}",bg = "grey")
         self.labelhoraeu1.place(x = 80 , y = 100)   
-        self.labelhoraeu2 = Label(self.framein, text="00:00")
-        self.labelhoraeu2.place(x = 80 , y = 140)       
-        self.labelhoraeu3 = Label(self.framein, text="00:00")
+        horamad = ahora.astimezone(timezone("Europe/Madrid"))
+        self.labelhoraeu2 = Label(self.framein, text=f"Madrid: {horamad.hour}:{horamad.minute}",bg = "grey")
+        self.labelhoraeu2.place(x = 80 , y = 140)  
+        horarom = ahora.astimezone(timezone("Europe/Rome"))     
+        self.labelhoraeu3 = Label(self.framein, text=f"Roma: {horarom.hour}:{horarom.minute}",bg = "grey")
         self.labelhoraeu3.place(x = 80 , y = 180)    
         #HORARIO ASIA
-        self.labelhoraas = Label(self.framein, text="HORARIOS ASIA")
+        
+        self.labelhoraas = Label(self.framein, text="HORARIOS ASIA",bg = "grey")
         self.labelhoraas.place(x = 200 , y = 60) 
-        self.labelhoraas1 = Label(self.framein, text="00:00")
-        self.labelhoraas1.place(x = 200 , y = 100)   
-        self.labelhoraas2 = Label(self.framein, text="00:00")
-        self.labelhoraas2.place(x = 200 , y = 140)       
-        self.labelhoraas3 = Label(self.framein, text="00:00")
+        horadub = ahora.astimezone(timezone("Asia/Dubai"))
+        self.labelhoraas1 = Label(self.framein, text=f"Dubai : {horadub.hour}:{horadub.minute}",bg = "grey")
+        self.labelhoraas1.place(x = 200 , y = 100)  
+        horajap = ahora.astimezone(timezone("Asia/Tokyo")) 
+        self.labelhoraas2 = Label(self.framein, text=f"Tokio : {horajap.hour}:{horajap.minute}",bg = "grey")
+        self.labelhoraas2.place(x = 200 , y = 140)   
+        horatur = ahora.astimezone(timezone("Asia/Istanbul"))    
+        self.labelhoraas3 = Label(self.framein, text=f"Estambul : {horatur.hour}:{horatur.minute}",bg = "grey")
         self.labelhoraas3.place(x = 200 , y = 180)     
         #HORARIOS OCEANIA  
-        self.labelhoraoc = Label(self.framein, text="HORARIOS OCEANIA")
+        self.labelhoraoc = Label(self.framein, text="HORARIOS OCEANIA",bg = "grey")
         self.labelhoraoc.place(x = 300 , y = 60)     
-        self.labelhoraoc1 = Label(self.framein, text="00:00")
-        self.labelhoraoc1.place(x = 300 , y = 100)   
-        self.labelhoraoc2 = Label(self.framein, text="00:00")
-        self.labelhoraoc2.place(x = 300 , y = 140)       
-        self.labelhoraoc3 = Label(self.framein, text="00:00")
-        self.labelhoraoc3.place(x =300 , y = 180)         
+        horaaus = ahora.astimezone(timezone("Australia/Sydney"))
+        self.labelhoraoc1 = Label(self.framein, text=f"Sidney: {horaaus.hour}:{horaaus.minute}",bg = "grey")
+        self.labelhoraoc1.place(x = 300 , y = 100)  
+        horanz = ahora.astimezone(timezone("NZ")) 
+        self.labelhoraoc2 = Label(self.framein, text=f"Auckland: {horanz.hour}:{horanz.minute}",bg = "grey")
+        self.labelhoraoc2.place(x = 300 , y = 140)               
         #HORARIOS NORTEAMERICA
-        self.labelhorausa = Label(self.framein, text="HORARIOS NORTEAMERICA")
+        self.labelhorausa = Label(self.framein, text="HORARIOS NORTEAMERICA",bg = "grey")
         self.labelhorausa.place(x = 425 , y = 60)  
-        self.labelhorausa1 = Label(self.framein, text="00:00")
-        self.labelhorausa1.place(x =425 , y = 100)   
-        self.labelhorausa2 = Label(self.framein, text="00:00")
-        self.labelhorausa2.place(x =425 , y = 140)       
-        self.labelhorausa3 = Label(self.framein, text="00:00")
+        horaang = ahora.astimezone(timezone("America/Los_Angeles")) 
+        self.labelhorausa1 = Label(self.framein, text=f"Los Angeles: {horaang.hour}:{horaang.minute}",bg   = "grey" )
+        self.labelhorausa1.place(x =425 , y = 100) 
+        horator = ahora.astimezone(timezone("America/Toronto"))   
+        self.labelhorausa2 = Label(self.framein, text=f"Toronto: {horator.hour}:{horator.minute}",bg = "grey")
+        self.labelhorausa2.place(x =425 , y = 140)   
+        horamx = ahora.astimezone(timezone("America/Mexico_City"))     
+        self.labelhorausa3 = Label(self.framein, text=f"Ciudad de Mexico: {horamx.hour}:{horamx.minute}", bg = "grey")
         self.labelhorausa3.place(x = 425, y = 180) 
         #conversor a fahrenheit/celsius
         self.labelc = Label(self.framein, text="CONVERTIR TEMPERATURA A:")
         self.labelc.place(x = 800 , y = 60)  
-        celsius = Button(self.framein,text="KELVIN",bg="white",height = 5, width = 30).place(x = 670 , y = 100)       
-        fahrenheit = Button(self.framein,text="FAHRENHEIT",bg="white",height = 5, width = 30).place(x = 900 , y = 100)    
+               
+            
+
+        def conkelvin():
+            url = f"https://api.openweathermap.org/data/2.5/weather?q=rosario&appid=ad82a5b3bf4c32ae52b43bde36ee8ce4"
+            resu = requests.get(url)
+            climak = resu.json()
+            tempk = climak["main"]["temp"]
+            messagebox.showinfo("Kelvin",f"La temperatura en kelvin es: {tempk}°K")
+        def confahrenheit():
+            url = f"https://api.openweathermap.org/data/2.5/weather?q=rosario&appid=ad82a5b3bf4c32ae52b43bde36ee8ce4"
+            resu = requests.get(url)
+            climaf = resu.json()
+            tempf = climaf["main"]["temp"]
+            tempf = round((tempf - 273.15) * 9/5 + 32)
+
+            messagebox.showinfo("Fahrenheit",f"La temperatura en fahrenheit es: {tempf}°F")
+        kelvin = Button(self.framein,text="KELVIN",bg="white",height = 5, width = 30,command = conkelvin).place(x = 670 , y = 100)
+        fahrenheit = Button(self.framein,text="FAHRENHEIT",bg="white",height = 5, width = 30,command = confahrenheit).place(x = 900 , y = 100)
         self.app.mainloop()
-    
 
 miapp = app()
 
