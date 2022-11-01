@@ -25,7 +25,10 @@ class app:
         menuc =Menu(self.app)
         self.app.config(menu= menuc, width=300, height=300)
         ayuda = Menu(menuc, tearoff=0)
-        ayuda.add_command(label="como usar el programa")
+        #COMANDO AYUDA
+        def ayudaop():
+            messagebox.showinfo("ayuda","Ingresá la ciudad de la que deseas saber el clima y presioná el botón de enviar , aparte el programa mostrará la hora y el día actual en la ciudad de Rosario, tambien en la parte inferior se muestra que hora es en otras zonas horarias, y a la derecha un conversor a grados kelvin y fahrenheit")
+        ayuda.add_command(label="como usar el programa",command = ayudaop)
         menuc.add_cascade(label="ayuda", menu=ayuda)
 
         #panel derecho
@@ -37,31 +40,43 @@ class app:
         img = PhotoImage(file = "clima.png")
         self.labeli = Label(self.framed, image = img)
         self.labeli.place(x = 0 , y = 0)
+        #INGRESO DE CIUDAD
+        labelciudad = Label(self.framed, text="Ciudad:",font=("Bahnschrift Condensed",30,"bold"), bg = "gray")
+        labelciudad.place(x = 320 , y = 10)
+        ciudad = Entry(self.framed)
+        ciudad.place(x = 430 , y = 30)
+        def obtenerclima(ciudad):
+            api = "ad82a5b3bf4c32ae52b43bde36ee8ce4"
+            self.url = "https://api.openweathermap.org/data/2.5/weather"
+            parametros = {"APPID": api , "q":ciudad}
+            self.res = requests.get(self.url, params = parametros)
+            self.climac = self.res.json()
+            self.temp = self.climac["main"]["temp"]
+            self.temp = round(self.temp - 273.15)
+            self.tempmin = self.climac["main"]["temp_min"]
+            self.tempmin = round(self.tempmin - 273.15)
+            self.tempmax = self.climac["main"]["temp_max"]
+            self.tempmax = round(self.tempmax - 273.15)
+            self.humedad = self.climac["main"]["humidity"]
+            self.labelpronostico = Label(self.framed, text= f"Temperatura: {self.temp}°", font=("Bahnschrift Condensed",30,"bold"), bg = "gray" )
+            self.labelpronostico.place(x = 320 , y = 80)
+            self.labeltempmin = Label(self.framed, text= f"Mínima: {self.tempmin}°", font=("Bahnschrift Condensed",30,"bold") , bg = "gray" )
+            self.labeltempmin.place(x = 320 , y = 130)
+            self.labeltempmax = Label(self.framed, text= f"Máxima: {self.tempmax}°", font=("Bahnschrift Condensed",30,"bold"), bg = "gray" )
+            self.labeltempmax.place(x = 320 , y = 180)
+            self.labelhumedad = Label(self.framed, text= f"Humedad: {self.humedad}%", font=("Bahnschrift Condensed",30,"bold"), bg = "gray" )
+            self.labelhumedad.place(x = 320 , y = 230)
+            
 
-        self.url = f"https://api.openweathermap.org/data/2.5/weather?q=rosario&appid=ad82a5b3bf4c32ae52b43bde36ee8ce4"
-        self.res = requests.get(self.url)
-        self.climac = self.res.json()
-        self.temp = self.climac["main"]["temp"]
-        self.temp = round(self.temp - 273.15)
-        self.tempmin = self.climac["main"]["temp_min"]
-        self.tempmin = round(self.tempmin - 273.15)
-        self.tempmax = self.climac["main"]["temp_max"]
-        self.tempmax = round(self.tempmax - 273.15)
-        self.humedad = self.climac["main"]["humidity"]
-        self.labelpronostico = Label(self.framed, text= f"Temperatura: {self.temp}°", font=("Bahnschrift Condensed",30,"bold"), bg = "gray" )
-        self.labelpronostico.place(x = 320 , y = 50)
-        self.labeltempmin = Label(self.framed, text= f"Mínima: {self.tempmin}°", font=("Bahnschrift Condensed",30,"bold") , bg = "gray" )
-        self.labeltempmin.place(x = 320 , y = 100)
-        self.labeltempmax = Label(self.framed, text= f"Máxima: {self.tempmax}°", font=("Bahnschrift Condensed",30,"bold"), bg = "gray" )
-        self.labeltempmax.place(x = 320 , y = 150)
-        self.labelhumedad = Label(self.framed, text= f"Humedad: {self.humedad}%", font=("Bahnschrift Condensed",30,"bold"), bg = "gray" )
-        self.labelhumedad.place(x = 320 , y = 200)
+        botonclima = Button(self.framed, text = "Enviar",bg="purple",command = lambda:obtenerclima(ciudad.get())).place(x = 550 , y = 30)
+
         #PANEL IZQUIERDO
         self.framei = Frame()
         self.framei.pack()
         self.framei.config(width = 600, height = 300)
         self.framei.config(bg="yellow")
         self.framei.place(x = 600 , y = 100)
+        #HORA Y DÍA
         img1 = PhotoImage(file = "reloj.png")
         self.labeli = Label(self.framei, image = img1)
         self.labeli.place(x = 0 , y = 0)
