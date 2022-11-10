@@ -13,7 +13,7 @@ class app:
     def __init__(self):
         self.app = Tk()
         self.app.title("pronostico del clima")
-        self.app.iconbitmap("C:\\Users\\Tomas\\Desktop\\faq\\programación 2\\trabajo final\\nublado.ico")
+        self.app.iconbitmap("..\\trabajo final\\nublado.ico")
         self.app.geometry("1200x630+0+0")
         self.app.resizable(0,0)
         self.app.resizable(False,False)
